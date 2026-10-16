@@ -77,4 +77,35 @@ describe('EmptyState', () => {
     );
     vi.unstubAllGlobals();
   });
+
+  it.each(['employees', 'transactions', 'reports', 'search'] as const)(
+    'renders the %s illustration as decorative art',
+    (illustration) => {
+      const { container } = render(<EmptyState title="Empty" illustration={illustration} />);
+      const art = container.querySelector('svg.empty-state-art');
+      expect(art).toBeInTheDocument();
+      expect(art?.closest('[aria-hidden="true"]')).not.toBeNull();
+      expect(container.querySelector('.motion-empty-illustration')).not.toBeInTheDocument();
+    }
+  );
+
+  it('uses the requested heading level for the title', () => {
+    render(<EmptyState title="No employees yet" headingLevel={2} />);
+    expect(screen.getByRole('heading', { level: 2, name: 'No employees yet' })).toBeInTheDocument();
+  });
+
+  it('styles the primary action as a solid CTA and the secondary as an arrow link', () => {
+    render(
+      <EmptyState
+        title="Empty"
+        primaryAction={{ label: 'Add employee', onClick: vi.fn() }}
+        secondaryAction={{ label: 'Import CSV', onClick: vi.fn() }}
+      />
+    );
+    expect(screen.getByRole('button', { name: 'Add employee' })).toHaveClass('rounded-full');
+    expect(screen.getByRole('button', { name: 'Import CSV' }).querySelector('svg')).toHaveAttribute(
+      'aria-hidden',
+      'true'
+    );
+  });
 });

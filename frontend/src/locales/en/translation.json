@@ -535,7 +535,22 @@
     "rowErrorsHeading_other": "{{count}} Row Errors",
     "rowErrorsAriaLabel": "Table of validation errors by row and field",
     "columnField": "Field",
-    "columnErrorMessage": "Error Message"
+    "columnErrorMessage": "Error Message",
+    "dropHere": "Drop your CSV file to upload",
+    "fileLimitHint": "CSV files up to {{maxSizeMB}}MB",
+    "phaseReading": "Reading file",
+    "phaseValidating": "Validating rows",
+    "phaseStep": "Step {{step}} of {{total}} · {{phase}}",
+    "replaceFile": "Choose a different file",
+    "removeFile": "Remove file",
+    "filterLabel": "Filter preview rows",
+    "filterAll": "All ({{count}})",
+    "filterValid": "Valid ({{count}})",
+    "filterInvalid": "Errors ({{count}})",
+    "noRowsInFilter": "No rows match this filter.",
+    "issuesCount_one": "{{count}} issue",
+    "issuesCount_other": "{{count}} issues",
+    "cellErrorPrefix": "Error:"
   },
   "breadcrumb": {
     "navigationAriaLabel": "Breadcrumb navigation",

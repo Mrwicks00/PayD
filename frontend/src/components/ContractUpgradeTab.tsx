@@ -37,6 +37,7 @@ import {
   fetchUpgradeLogs,
 } from '../services/contractUpgrade';
 import UpgradeConfirmModal from './UpgradeConfirmModal';
+import { CardListSkeleton } from './DataSkeletons';
 import { useNotification } from '../hooks/useNotification';
 import { getTxExplorerUrl } from '../utils/stellarExpert';
 
@@ -427,18 +428,8 @@ export default function ContractUpgradeTab({ adminAddress }: ContractUpgradeTabP
             animate={{ opacity: 1 }}
             exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
             transition={{ duration: transitionDuration }}
-            className="flex flex-col gap-4"
           >
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="border border-hi rounded-2xl bg-surface/40 p-5 animate-pulse motion-reduce:animate-none"
-                style={{ animationDelay: `${i * 100}ms` }}
-              >
-                <div className="h-5 bg-hi/60 rounded w-1/3 mb-3" />
-                <div className="h-3 bg-hi/60 rounded w-2/3" />
-              </div>
-            ))}
+            <CardListSkeleton label={t('contractUpgrade.loading')} count={3} />
           </motion.div>
         ) : contracts.length === 0 ? (
           <motion.div

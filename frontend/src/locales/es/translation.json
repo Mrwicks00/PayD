@@ -535,7 +535,22 @@
     "rowErrorsHeading_other": "{{count}} errores de fila",
     "rowErrorsAriaLabel": "Tabla de errores de validación por fila y campo",
     "columnField": "Campo",
-    "columnErrorMessage": "Mensaje de error"
+    "columnErrorMessage": "Mensaje de error",
+    "dropHere": "Suelta tu archivo CSV para subirlo",
+    "fileLimitHint": "Archivos CSV de hasta {{maxSizeMB}}MB",
+    "phaseReading": "Leyendo archivo",
+    "phaseValidating": "Validando filas",
+    "phaseStep": "Paso {{step}} de {{total}} · {{phase}}",
+    "replaceFile": "Elegir otro archivo",
+    "removeFile": "Quitar archivo",
+    "filterLabel": "Filtrar filas de la vista previa",
+    "filterAll": "Todas ({{count}})",
+    "filterValid": "Válidas ({{count}})",
+    "filterInvalid": "Con errores ({{count}})",
+    "noRowsInFilter": "Ninguna fila coincide con este filtro.",
+    "issuesCount_one": "{{count}} problema",
+    "issuesCount_other": "{{count}} problemas",
+    "cellErrorPrefix": "Error:"
   },
   "breadcrumb": {
     "navigationAriaLabel": "Navegación de ruta",

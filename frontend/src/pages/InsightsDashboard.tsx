@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { DashboardSnapshot, InsightReport } from '../types/insightCards';
 import { generateInsightReport, worstSeverity } from '../services/insightCardAgent';
 import InsightCards from '../components/InsightCards';
+import { CardListSkeleton } from '../components/DataSkeletons';
 
 const SEVERITY_BADGE: Record<string, string> = {
   info: 'bg-accent/10 text-accent',
@@ -123,20 +124,11 @@ export default function InsightsDashboard() {
 
         {/* Cards */}
         {isLoading ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="glass noise rounded-2xl border border-hi p-5 animate-pulse"
-              >
-                <div className="h-3 w-20 bg-surface-hi rounded mb-3" />
-                <div className="h-5 w-40 bg-surface-hi rounded mb-2" />
-                <div className="h-3 w-full bg-surface-hi rounded mb-1" />
-                <div className="h-3 w-3/4 bg-surface-hi rounded mb-4" />
-                <div className="h-8 w-24 bg-surface-hi rounded" />
-              </div>
-            ))}
-          </div>
+          <CardListSkeleton
+            label="Loading insights"
+            count={6}
+            gridClassName="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          />
         ) : report ? (
           <InsightCards cards={report.cards} />
         ) : null}

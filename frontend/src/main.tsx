@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import './styles/feedback.css';
 import { QueryClient } from '@tanstack/react-query';
 import { AppProviders } from './providers/AppProviders.tsx';
 import * as Sentry from '@sentry/react';

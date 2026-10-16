@@ -20,10 +20,10 @@ import {
   Trash2,
   Upload,
   UserCircle2,
-  Users,
   X,
 } from 'lucide-react';
 import { EmployeeRemovalConfirmModal } from './EmployeeRemovalConfirmModal';
+import { EmptyState } from './EmptyState';
 
 export interface Employee {
   id: string;
@@ -707,19 +707,18 @@ export const EmployeeList: React.FC<EmployeeListProps> = ({
   };
 
   const renderEmptyState = (
-    <div className="flex flex-col items-center gap-3 px-6 py-12 text-center sm:px-12">
-      <Users className="h-12 w-12 text-[var(--muted)] opacity-30" aria-hidden />
-      <p className="text-base font-semibold text-[var(--text)]">
-        {debouncedSearch
+    <EmptyState
+      illustration={debouncedSearch ? 'search' : 'employees'}
+      title={
+        debouncedSearch
           ? t('employeeList.noEmployeesMatch', { query: debouncedSearch })
-          : t('employeeList.noEmployeesFound')}
-      </p>
-      <p className="max-w-md text-sm leading-6 text-[var(--muted)]">
-        {debouncedSearch
-          ? t('employeeList.tryDifferentKeyword')
-          : t('employeeList.addEmployeesHint')}
-      </p>
-    </div>
+          : t('employeeList.noEmployeesFound')
+      }
+      description={
+        debouncedSearch ? t('employeeList.tryDifferentKeyword') : t('employeeList.addEmployeesHint')
+      }
+      className="border-0"
+    />
   );
 
   const showEmptyState = !isLoading && sortedEmployees.length === 0;

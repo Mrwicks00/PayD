@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
-import { Toaster, toast } from 'sonner';
-import { NotificationContext } from '../hooks/useNotification';
+import { toast } from 'sonner';
+import { NotificationContext, type NotifyPromiseMessages } from '../hooks/useNotification';
+import { AppToaster } from '../components/common/Toast/AppToaster';
 import { getTxExplorerUrl } from '../utils/stellarExpert';
 
 const buildTxExplorerLink = (txHash: string) => getTxExplorerUrl(txHash);
@@ -17,6 +18,27 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const notifyError = useCallback((message: string, description?: string) => {
     toast.error(message, { description });
   }, []);
+
+  const notifyInfo = useCallback((message: string, description?: string) => {
+    toast.info(message, { description });
+  }, []);
+
+  const notifyWarning = useCallback((message: string, description?: string) => {
+    toast.warning(message, { description });
+  }, []);
+
+  const notifyPromise = useCallback(
+    <T,>(promise: Promise<T>, messages: NotifyPromiseMessages<T>): Promise<T> => {
+      toast.promise(promise, {
+        loading: messages.loading,
+        success: messages.success,
+        error: messages.error,
+        description: messages.description,
+      });
+      return promise;
+    },
+    []
+  );
 
   const notifyPaymentSuccess = useCallback((txHash: string, label = 'Payment submitted') => {
     toast.success(label, {
@@ -78,6 +100,9 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         notify,
         notifySuccess,
         notifyError,
+        notifyInfo,
+        notifyWarning,
+        notifyPromise,
         notifyPaymentSuccess,
         notifyPaymentFailure,
         notifyWalletEvent,
@@ -85,7 +110,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       }}
     >
       {children}
-      <Toaster richColors position="top-right" closeButton />
+      <AppToaster />
     </NotificationContext>
   );
 };

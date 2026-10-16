@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import { Activity, Calendar, Filter, Search, X } from 'lucide-react';
+import { Calendar, Filter, Search, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useFilterState } from '../hooks/useFilterState';
 import { useTransactionHistory } from '../hooks/useTransactionHistory';
 import { useSocket } from '../hooks/useSocket';
 import { ConnectionStatus } from '../components/ConnectionStatus';
 import { Button, Input, Select, Heading, Text, Card } from '@stellar/design-system';
+import { CardListSkeleton } from '../components/DataSkeletons';
+import { EmptyState } from '../components/EmptyState';
 
 const InputComponent = Input as unknown as React.FC<Record<string, unknown>>;
 const SelectComponent = Select as unknown as React.FC<Record<string, unknown>>;
@@ -27,34 +29,7 @@ function getTxExplorerUrl(hash: string): string {
 }
 
 function TransactionSkeleton() {
-  return (
-    <div className="space-y-4" role="status" aria-label="Loading transactions" aria-busy="true">
-      {['s1', 's2', 's3', 's4', 's5', 's6'].map((key) => (
-        <div key={key} className="rounded-2xl border border-hi p-5 animate-pulse">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-            <div className="flex items-center gap-3">
-              <span className="px-2 py-1 rounded-md text-[10px] font-bold border border-hi text-muted uppercase tracking-widest bg-surface h-5 w-20" />
-              <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest h-5 w-24" />
-            </div>
-            <span className="text-[10px] font-mono text-muted uppercase tracking-wider h-3.5 w-24" />
-          </div>
-
-          <div className="flex justify-between items-start gap-4">
-            <div>
-              <div className="h-5 w-48 bg-surface-hi rounded mb-2" />
-              <div className="flex items-center gap-2 mt-2">
-                <span className="text-[10px] font-bold text-muted uppercase tracking-widest h-3 w-12" />
-                <span className="text-xs font-mono text-text bg-surface px-1.5 py-0.5 rounded border border-hi h-5 w-20" />
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="h-6 w-32 bg-surface-hi rounded" />
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  return <CardListSkeleton label="Loading transactions" count={6} />;
 }
 
 function FilterSkeleton() {
@@ -380,19 +355,20 @@ export default function TransactionHistory() {
           {isLoading ? <TransactionSkeleton /> : null}
 
           {!isLoading && (!data || data.length === 0) ? (
-            <div className="text-muted text-center py-24">
-              <div className="w-16 h-16 rounded-full bg-surface-hi flex items-center justify-center mx-auto mb-6 border border-hi">
-                <Activity className="w-8 h-8 opacity-40 text-muted" />
-              </div>
-              <p className="text-lg font-bold text-text mb-1">
-                {activeFilterCount > 0 ? 'No transactions found' : 'No transactions yet'}
-              </p>
-              <p className="text-sm">
-                {activeFilterCount > 0
+            <EmptyState
+              illustration={activeFilterCount > 0 ? 'search' : 'transactions'}
+              title={activeFilterCount > 0 ? 'No transactions found' : 'No transactions yet'}
+              description={
+                activeFilterCount > 0
                   ? 'Try adjusting your filters.'
-                  : 'Your payroll history will appear here once payments are sent.'}
-              </p>
-            </div>
+                  : 'Your payroll history will appear here once payments are sent.'
+              }
+              secondaryAction={
+                activeFilterCount > 0
+                  ? { label: 'Clear filters', onClick: resetFilters }
+                  : undefined
+              }
+            />
           ) : null}
 
           {!isLoading && data && data.length > 0 ? (

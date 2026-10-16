@@ -31,7 +31,7 @@ import {
 import axiosInstance from '../api/axiosInstance';
 import { parseDateString } from '../utils/dateHelpers';
 import { exportAsPng, exportAsSvg } from '../utils/exportChart';
-import { SkeletonLoader } from '../components/SkeletonLoader';
+import { SkeletonBone, SkeletonRegion, StatCardsSkeleton } from '../components/DataSkeletons';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import {
   getBarAnimationProps,
@@ -396,11 +396,7 @@ export default function PayrollAnalytics() {
 
       {/* Summary Cards */}
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <SkeletonLoader key={i} variant="card" height={20} reducedMotion={reduceMotion} />
-          ))}
-        </div>
+        <StatCardsSkeleton label="Loading payroll summary" count={4} />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
@@ -679,9 +675,17 @@ export default function PayrollAnalytics() {
             </div>
 
             {forecastQuery.isLoading ? (
-              <div className="py-12 flex justify-center">
-                <RefreshCw className="w-8 h-8 animate-spin text-blue-600" />
-              </div>
+              <SkeletonRegion label="Loading payroll forecast" className="space-y-4">
+                <div className="grid grid-cols-2 gap-4 rounded-lg p-4">
+                  {[0, 1].map((i) => (
+                    <div key={i} className="space-y-2">
+                      <SkeletonBone className="h-3 w-2/3 rounded-full" />
+                      <SkeletonBone className="h-5 w-1/2 rounded-lg" />
+                    </div>
+                  ))}
+                </div>
+                <SkeletonBone className="h-40 w-full rounded-xl" />
+              </SkeletonRegion>
             ) : forecastQuery.data ? (
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">

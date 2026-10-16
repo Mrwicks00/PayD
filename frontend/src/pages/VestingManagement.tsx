@@ -16,6 +16,7 @@ import { useNotification } from '../hooks/useNotification';
 import { useWallet } from '../hooks/useWallet';
 import { useSorobanContract } from '../hooks/useSorobanContract';
 import { contractService } from '../services/contracts';
+import { SkeletonBone, SkeletonRegion } from '../components/DataSkeletons';
 import {
   fetchVestingConfig,
   fetchVestingProgress,
@@ -236,22 +237,33 @@ export default function VestingManagement() {
         </div>
       ) : null}
 
-      {/* Loading skeleton */}
+      {/* Loading skeleton — mirrors the config card + progress panel below */}
       {isLoading && !error ? (
-        <div className="space-y-4" aria-label="Loading vesting data" role="status">
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-            <div className="card glass noise rounded-[1.5rem] p-4 space-y-3">
-              <div className="h-4 w-1/3 bg-zinc-800 rounded animate-pulse" />
-              <div className="h-8 w-full bg-zinc-800 rounded animate-pulse" />
-              <div className="h-4 w-1/2 bg-zinc-800 rounded animate-pulse" />
+        <SkeletonRegion label="Loading vesting data">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+            <div className="skeleton-surface space-y-4 p-5 xl:col-span-1">
+              <SkeletonBone className="h-4 w-1/3 rounded-full" />
+              {[0, 1, 2, 3, 4].map((row) => (
+                <div key={row} className="flex items-center justify-between gap-4">
+                  <SkeletonBone className="h-3 w-1/4 rounded-full" />
+                  <SkeletonBone className="h-3 w-1/3 rounded-full" />
+                </div>
+              ))}
             </div>
-            <div className="card glass noise rounded-[1.5rem] p-4 space-y-3">
-              <div className="h-4 w-1/3 bg-zinc-800 rounded animate-pulse" />
-              <div className="h-8 w-full bg-zinc-800 rounded animate-pulse" />
-              <div className="h-4 w-1/2 bg-zinc-800 rounded animate-pulse" />
+            <div className="skeleton-surface space-y-5 p-5 xl:col-span-2">
+              <SkeletonBone className="h-4 w-1/4 rounded-full" />
+              <SkeletonBone className="h-3 w-full rounded-full" />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {[0, 1, 2].map((stat) => (
+                  <div key={stat} className="space-y-2">
+                    <SkeletonBone className="h-3 w-1/2 rounded-full" />
+                    <SkeletonBone className="h-6 w-3/4 rounded-lg" />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </SkeletonRegion>
       ) : null}
 
       {/* Content grid */}

@@ -17,7 +17,8 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useNotification } from '../hooks/useNotification';
-import { SkeletonLoader } from '../components/SkeletonLoader';
+import { TableSkeleton } from '../components/DataSkeletons';
+import { EmptyState } from '../components/EmptyState';
 import { getTxExplorerUrl } from '../utils/stellarExpert';
 import {
   MAX_CUSTOM_EXPORT_ROWS,
@@ -324,9 +325,15 @@ export default function CustomReportBuilder() {
           <div className="p-6 space-y-4">
             <h3 className="font-semibold text-lg text-gray-900">Preview Records ({rows.length})</h3>
             {previewQuery.isLoading ? (
-              <SkeletonLoader variant="table-row" count={5} />
+              <TableSkeleton label="Loading report preview" rows={5} columns={4} />
             ) : rows.length === 0 ? (
-              <p className="text-sm text-gray-500">Enter an organization public key to preview data.</p>
+              <EmptyState
+                illustration="reports"
+                size="compact"
+                headingLevel={4}
+                title="No report data yet"
+                description="Enter an organization public key to preview data."
+              />
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
